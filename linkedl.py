@@ -86,8 +86,14 @@ class Solution(object):
         list1 = SLinkedList()
 
         # build linked list
-        for idx, value in enumerate(head):
-            list1.addAtEnd(value)
+        for value in head:
+            NewNode = ListNode(value)
+            if list1.head is None:
+                list1.head = NewNode
+            else:
+                prev.next = NewNode 
+
+            prev = NewNode
 
         # print the new list
         list1.listPrint()
