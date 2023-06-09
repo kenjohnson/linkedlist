@@ -24,31 +24,37 @@ class Solution(object):
             while curr.next and curr.val == curr.next.val:
                 # if at the head of list, reset head of list
                 if curr == head:
-                    head = curr.next
-                    #dummy.next = curr.next
-                    prev.next = curr.next
-                    curr = curr.next
-                    if curr.next:
-                        # if last duplicate, then delete it too. 
-                        if curr.val != curr.next.val:
-                            head = curr.next
-                            dummy.next = curr.next
-                            prev.next = curr.next
-                            curr = curr.next
+                   
+
+                    # two duplicates, then a non duplicate. remove the 2 dups
+                    if curr.next.next and curr.next.val != curr.next.next.val:
+                        head = curr.next.next
+                        prev = curr.next
+                        prev.next = curr.next.next
+                        curr = curr.next.next 
+                        
+                    # two duplicates at the end of the list
+                    elif not curr.next.next:
+                        head  = None
+                        return head
+                    else:
+                        head = curr.next
+                        prev.next = curr.next
+                        curr = curr.next
+
                 else:
                     
-                    # if we are at the end of the list
-                    if not curr.next.next:
-                        # deleting two duplicate nodes at end of list
+                    # two duplicates, then a non duplicate. remove the 2 dups
+                    if curr.next.next and curr.next.val != curr.next.next.val:
+                        prev.next = curr.next.next
+                        curr = curr.next.next 
+
+                    # two duplicates at the end of the list
+                    elif not curr.next.next:
                         prev.next = None
                         return head
                     else:
-                        # skip two nodes
-                        prev.next = curr.next
-                        curr = curr.next
-                        if curr.val != curr.next.val:
-                            prev.next = curr.next
-                            curr = curr.next
+                        pass
 
             prev = curr       
             curr = curr.next
@@ -89,8 +95,24 @@ def main():
     :
     """
 
-    # case for duplicates at the beginning of list
-    head = [1,1, 1,1,1,2]
+    # case for duplicates following duplicates in middle of the list
+    head = [1,2,3,3,4,4,5]
+    list = buildLinkedList(head)   
+    res = Solution().deleteDuplicates( list )
+    print("before calling printList")
+    printList (res)
+    print("after calling printList")
+
+    # multiple duplicates at the beginning
+    head = [1,1,1,2,3]
+    list = buildLinkedList(head)   
+    res = Solution().deleteDuplicates( list )
+    print("before calling printList")
+    printList (res)
+    print("after calling printList")
+
+    # more multiple duplicates at the beginning
+    head = [1,1,1,2]
     list = buildLinkedList(head)   
     res = Solution().deleteDuplicates( list )
     print("before calling printList")
